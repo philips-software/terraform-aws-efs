@@ -10,12 +10,16 @@ Due to a bug in the AWS provider for terraform the number of subnets needs to be
 ### Example usages
 ```
 module "efs" {
-  source          = "https://gitlab.ta.philips.com/forest.terraform/terraform-aws-efs.git?ref=1.0.0"
+  source = "philips-software/efs/aws"
+  version = "1.0.0"
+
+  # Or via github
+  # source = "github.com/philips-software/terraform-aws-efs?ref=1.0.0"
+
   environment    = "${var.environment}"
   subnet_count   = "3"
   subnet_ids     = "${var.private_subnet_ids}"
   vpc_id         = "${var.vpc_id}"
-  vpc_cidr_block = "${var.vpc_cidr}"
 }
 
 # The EFS module outputs user_data parts, which can be used in the following way.
@@ -53,3 +57,22 @@ data "template_cloudinit_config" "config" {
 | amazon_linux_cloudinit_config_part | Cloud init part to mount an EFS to an EC2 instance. |
 | efs_dns_name | List of DNS mount points, one per subnet. |
 | efs_id | Id of the EFS file system. |
+
+
+## Philips Forest
+
+This module is part of the Philips Forest.
+
+```
+                                                     ___                   _
+                                                    / __\__  _ __ ___  ___| |_
+                                                   / _\/ _ \| '__/ _ \/ __| __|
+                                                  / / | (_) | | |  __/\__ \ |_
+                                                  \/   \___/|_|  \___||___/\__|  
+
+                                                                 Infrastructure
+```
+
+Talk to the forestkeepers in the `forest`-channel on Slack.
+
+[![Slack](https://philips-software-slackin.now.sh/badge.svg)](https://philips-software-slackin.now.sh)
