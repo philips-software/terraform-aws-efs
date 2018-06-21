@@ -6,12 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-### Added
-- Add optional `creation_token`. Thanks Kike.
-- Add mandatory `project`
-
-## 1.0.0 - 
+## 1.0.0 - 2018-06-21
 https://github.com/philips-software/terraform-aws-efs/tags/1.0.0
-
 
 [Unreleased]: https://github.com/philips-software/terraform-aws-efs/compare/1.0.0...HEAD
