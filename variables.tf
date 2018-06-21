@@ -1,5 +1,5 @@
 variable "environment" {
-  description = "Name of the environment (e.g. cheetah-dev); will be prefixed to all resources"
+  description = "Name of the environment; will be prefixed to all resources"
   type        = "string"
 }
 

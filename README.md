@@ -41,7 +41,7 @@ data "template_cloudinit_config" "config" {
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | encrypted | Encrypt file system. | string | `true` | no |
-| environment | Name of the environment (e.g. cheetah-dev); will be prefixed to all resources | string | - | yes |
+| environment | Name of the environment; will be prefixed to all resources | string | - | yes |
 | project | Name of the project. | string | - | yes |
 | creation_token | Creation token. | string | - | no |
 | mount_location | Used to create a cloud init config part for amazon linux instances. | string | `/efs` | no |
