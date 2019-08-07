@@ -49,7 +49,7 @@ resource "aws_efs_file_system" "efs" {
 }
 
 resource "aws_efs_mount_target" "efs_mount_target" {
-  count = var.subnet_count
+  count = length(var.subnet_ids)
 
   file_system_id  = aws_efs_file_system.efs.id
   subnet_id       = element(var.subnet_ids, count.index)
