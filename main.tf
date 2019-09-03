@@ -1,43 +1,59 @@
 data "aws_vpc" "selected" {
-  id = "${var.vpc_id}"
+  id = var.vpc_id
 }
 
 resource "aws_security_group" "efs_sg" {
   name        = "${var.environment}-efs-sg"
   description = "controls access to efs"
 
-  vpc_id = "${var.vpc_id}"
+  vpc_id = var.vpc_id
 
   ingress {
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
-    cidr_blocks = ["${data.aws_vpc.selected.cidr_block}"]
+    cidr_blocks = [data.aws_vpc.selected.cidr_block]
   }
 
-  tags = "${merge(map("Name", format("%s", "${var.environment}-efs-sg")),
-            map("Environment", format("%s", var.environment)),
-            map("Project", format("%s", var.project)),
-            var.tags)}"
+  tags = merge(
+    {
+      "Name" = format("%s", "${var.environment}-efs-sg")
+    },
+    {
+      "Environment" = format("%s", var.environment)
+    },
+    {
+      "Project" = format("%s", var.project)
+    },
+    var.tags,
+  )
 }
 
 resource "aws_efs_file_system" "efs" {
-  encrypted        = "${var.encrypted}"
-  performance_mode = "${var.performance_mode}"
-  creation_token   = "${var.creation_token}"
+  encrypted        = var.encrypted
+  performance_mode = var.performance_mode
+  creation_token   = var.creation_token
 
-  tags = "${merge(map("Name", format("%s", "${var.environment}-efs")),
-            map("Environment", format("%s", var.environment)),
-            map("Project", format("%s", var.project)),
-            var.tags)}"
+  tags = merge(
+    {
+      "Name" = format("%s", "${var.environment}-efs")
+    },
+    {
+      "Environment" = format("%s", var.environment)
+    },
+    {
+      "Project" = format("%s", var.project)
+    },
+    var.tags,
+  )
 }
 
 resource "aws_efs_mount_target" "efs_mount_target" {
-  count = "${var.subnet_count}"
+  count = length(var.subnet_ids)
 
-  file_system_id  = "${aws_efs_file_system.efs.id}"
-  subnet_id       = "${element(var.subnet_ids, count.index)}"
-  security_groups = ["${aws_security_group.efs_sg.id}"]
+  file_system_id  = aws_efs_file_system.efs.id
+  subnet_id       = element(var.subnet_ids, count.index)
+  security_groups = [aws_security_group.efs_sg.id]
 }
 
 data "template_file" "amazon_linux_cloud_init_part" {
@@ -54,8 +70,10 @@ cloud-init-per once mount_efs echo -e '$${efs_dns}:/ $${mount_location} nfs4 nfs
 mount -a
 EOL
 
+
   vars = {
-    efs_dns        = "${element(aws_efs_mount_target.efs_mount_target.*.dns_name, 0)}"
-    mount_location = "${var.mount_location}"
+    efs_dns        = element(aws_efs_mount_target.efs_mount_target.*.dns_name, 0)
+    mount_location = var.mount_location
   }
 }
+
