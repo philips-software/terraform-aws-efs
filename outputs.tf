@@ -5,7 +5,7 @@ output "efs_id" {
 
 output "efs_dns_name" {
   description = "List of DNS mount points, one per subnet."
-  value       = [aws_efs_mount_target.efs_mount_target.*.dns_name]
+  value       = aws_efs_mount_target.efs_mount_target.*.dns_name
 }
 
 output "amazon_linux_cloudinit_config_part" {
