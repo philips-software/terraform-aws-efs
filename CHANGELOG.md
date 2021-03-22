@@ -5,7 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-- Add variable for infrequent access policy
+
+## 2.2.0 - 2021-03-22
+- Add variable for infrequent access policy (#6) by Laugslander
 
 ## 2.1.0 - 2021-01-14
 - Flatten list of lists (#4) by Laugslander
